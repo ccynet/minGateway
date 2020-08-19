@@ -1,53 +1,3 @@
-# minGateway
-
-基于Go语言开发的一个小巧的http/https网关服务
-
-## 优点：
-- 部署简单，程序只有一个单独的文件，支持多个操作系统，即拷即用
-- 性能优异，轻松实现每秒上万转发
-- 可扩展性好，根据自身业务扩展起来方便（主要是因为代码量少）
-
-## 功能：
-- 负载均衡：支持三种目标路由方式可选，随机、轮询、哈希
-- 多种转发规则：支持前逗号和后逗号泛路由转发
-- 限流：设置最大连接数，实现限流功能
-- CC攻击(Challenge Collapsar)防御：开启后记录频繁访问的IP，将其加入黑名单，具有一定的CC防御攻击能力
-- 访问限制：开启后限制在一个时间范围内同IP访问同一URL请求次数，超过的会被抛弃
-- HTTP(S)反向代理：由网关处理https加密连接，后端服务器只需提供非加密的http服务
-- OCSP：可配置的OCSP Stapling功能
-- 管理API：当前只有获取当前正在访问的数量，需要自行扩展
-
-## 压测数据：
-**内网环境：**
-- 网关服务器(4核8g centos 7.x)，tomcat服务器(8核16g contos 7.x)
-- tomcat提供GET的"/ping"请求，返回字符串"pong"
-- 70微秒一次请求，约合每秒14285次请求，持续压测1分钟
-
-**测试结果：**
-- tomcat直压结果：共返回823842次成功结果，0次失败，约合每秒返回13730个成功结果
-- 通过minGateway转发：共返回606926次成功结果，0次失败，约合每秒10115个成功结果
-
-*另外，本次测试是在tomcat和minGateway的控制台都开着打印的情况，如果优化一下测试数据应该能再好一些。*
-
-## 使用方法：
-
-1. 配置go编译环境，本库在go 1.14中编译通过
-
-2. 获取代码: `go get github.com/ccynet/minGateway`
-
-3. 下载依赖: `cd minGateway && go mod tidy`
-
-4. 编译程序: `go build`
-
-5. 修改配置文件: 配置文件在minGateway的bin/configs/目录下
-
-6. 如果需要设置TLS证书，证书文件保存在项目的bin/cert/目录下，并在配置文件中做相应设置
-
-7. 运行编译出来的程序，请确保可执行文件放置在bin文件夹的同级目录下
-
-## 附配置文件示例：
-
-```toml
 #服务器设置
 [core]
 #最大连接数，为0则不限流
@@ -162,14 +112,3 @@ ocsp_stapling_file = "wxpaypay.obtc.com.ocsp"
 [sslCert.wxpaypay_lidu_com]
 ssl_certificate = "wxpaypay.lidu.com.crt"
 ssl_certificate_key = "wxpaypay.lidu.com.key"
-
-```
-
-## Version
-v0.1.0
-
-## License
-Licensed under the New BSD License.
-
-## Author
-Tom Chen (cgrencn@gmail.com)
