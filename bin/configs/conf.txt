@@ -18,8 +18,8 @@ ipForwardeds = ["Ali-Cdn-Real-Ip","X-Forwarded-For","X-Real-Ip","X-Real-IP"]
 #CC防御(Challenge Collapsar)
 #如设置为3000毫秒钟内访问100次，则把此IP加入黑名单3600秒
 [ccDefense]
-#是否开启
-enable = true
+#是否开启 <value:false/true>
+enable = false
 #此时间的访问内做检查(单位:毫秒)
 timeDuration = 3000
 #允许访问的次数
@@ -34,8 +34,8 @@ IPBlackList = []
 #限制请求配置
 #限制在一个时间范围内同IP访问同一URL请求次数，超过的会被抛弃
 [limitReq]
-#是否开启
-enable = true
+#是否开启 <value:false/true>
+enable = false
 #此时间的访问内做检查(单位:毫秒)
 timeDuration = 1000
 #允许访问的次数
